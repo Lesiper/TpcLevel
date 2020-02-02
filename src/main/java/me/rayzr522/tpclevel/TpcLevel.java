@@ -66,20 +66,20 @@ public class TpcLevel extends JavaPlugin {
         int highestLevelSword = getHighestLevelItem(player, Material.DIAMOND_SWORD);
 
         total += highestLevelSword;
-        if (highestLevelSword > 0) {
+        if (highestLevelSword != 0) {
             count++;
         }
 
         int highestLevelBow = getHighestLevelItem(player, Material.BOW);
 
         total += highestLevelBow;
-        if (highestLevelBow > 0) {
+        if (highestLevelBow != 0) {
             count++;
         }
 
         List<Integer> armorLevels = Arrays.stream(player.getEquipment().getArmorContents())
                 .map(this::calculateItemLevel)
-                .filter(level -> level > 0)
+                .filter(level -> level != 0)
                 .collect(Collectors.toList());
 
         count += armorLevels.size();
@@ -105,7 +105,7 @@ public class TpcLevel extends JavaPlugin {
                 .filter(section -> playerLevel >= section.getInt("min") && playerLevel <= section.getInt("max"))
                 .findFirst()
                 .map(section -> ChatColor.translateAlternateColorCodes('&', section.getString("suffix")))
-                .orElse("");
+                .orElse("Jc");
 
         String nametagFormat = ChatColor.translateAlternateColorCodes('&', getConfig().getString("format"))
                 .replaceAll("\\{LEVEL}", String.valueOf(playerLevel));
@@ -122,7 +122,7 @@ public class TpcLevel extends JavaPlugin {
                 .filter(Objects::nonNull)
                 .filter(item -> item.getType() == type)
                 .mapToInt(this::calculateItemLevel)
-                .filter(level -> level >= 0)
+                .filter(level -> level != 0)
                 .max()
                 .orElse(0);
     }
